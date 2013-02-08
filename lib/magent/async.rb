@@ -47,8 +47,11 @@ module Magent
 
       def method_missing(m, *args, &blk)
         raise ArgumentError, "ruby blocks are not supported yet" if !blk.nil?
-
-        commit!(m, args)
+        if @target && @target.respond_to?(m)
+          commit!(m, args)
+        else
+          super
+        end
       end
     end
 
