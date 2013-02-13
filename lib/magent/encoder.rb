@@ -22,6 +22,8 @@ module Magent
         ":S:#{arg}"
       elsif (BSON::BSON_RUBY.new.bson_type(arg) rescue false) # supported by bson
         arg
+      elsif defined?(Moped) && arg.is_a?(Moped::BSON::ObjectId)
+        BSON::ObjectId.from_string(arg.to_s)
       else
         ":M:#{Marshal.dump(arg)}"
       end
