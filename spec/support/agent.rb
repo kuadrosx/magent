@@ -8,4 +8,8 @@ class Agent
   def self.do_job(*args)
     puts ">> exec job with #{args.inspect}"
   end
+
+  def self.do_job_and_fail(*args)
+    raise ">> fail running do_job_and_fail with #{args.inspect}"
+  end
 end

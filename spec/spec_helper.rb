@@ -10,12 +10,15 @@ Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each {|f| require f}
 
 RSpec.configure do |config|
 
-  def run_jobs
+  def run_jobs(*args, &blk)
     channel = Magent::AsyncChannel.new(:specs)
     processor = Magent::Processor.new(channel)
 
     processor.run!(false)
 
+    yield channel if blk
+
     channel.clear!
+    channel.stats_collection.remove({})
   end
 end

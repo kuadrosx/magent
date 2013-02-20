@@ -38,7 +38,7 @@ module Magent
     end
 
     def collection
-      @collection ||= Magent.database.collection(@name)
+      @collection ||= Magent.database[@name]
     end
 
     def retry_current_job

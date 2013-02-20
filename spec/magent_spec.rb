@@ -58,4 +58,14 @@ describe "Magent" do
     Agent.should_receive(:do_job).with(*args)
     run_jobs
   end
+
+  it "should record when a job failed" do
+    f = Model.new(5)
+    Agent.enqueue_job(:do_job_and_fail, [f])
+    run_jobs do |channel|
+      stats = channel.stats_collection.find_one(:_id => "magent.specs")
+      stats["total_errors"].should == 1
+    end
+  end
 end
+
